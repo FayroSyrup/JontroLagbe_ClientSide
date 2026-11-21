@@ -10,7 +10,7 @@ const SOCIALS = [
     { label: "Instagram", href: "https://instagram.com", Icon: InstagramIcon },
     { label: "LinkedIn", href: "https://linkedin.com", Icon: LinkedinIcon },
 ]
-
+const YEAR = 2026
 export function SiteFooter() {
     return (
         <footer className="border-t bg-card">
@@ -72,7 +72,7 @@ export function SiteFooter() {
                 </div>
             </div>
             <div className="border-t py-5 text-center text-xs text-muted-foreground">
-                © {new Date().getFullYear()} JontroLagbe. All rights reserved.
+                © {YEAR} JontroLagbe. All rights reserved.
             </div>
         </footer>
     )
