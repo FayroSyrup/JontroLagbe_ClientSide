@@ -60,3 +60,14 @@ export type Paged<T> = {
     page: number
     totalPages: number
 }
+
+// filter values kept in the page url
+export type EquipmentFilterValues = {
+    search: string
+    category: string
+    rentalType: string
+    minPrice: string
+    maxPrice: string
+    availability: string
+    sort: string
+}
