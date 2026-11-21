@@ -10,6 +10,9 @@ import { Badge } from "@/components/ui/badge"
 import { CopyLinkButton } from "@/components/equipment/copy-link-button"
 import { UserAvatar } from "@/components/shared/user-avatar"
 import { cn } from "@/lib/utils"
+import { getFavoriteIds } from "@/lib/api/favorites"
+import { FavoriteButton } from "@/components/equipment/favorite-button"
+
 
 export const metadata: Metadata = { title: "Equipment Details" }
 
@@ -43,6 +46,7 @@ export default async function EquipmentDetailsPage({ params }: { params: Promise
 
     const role = session.user.role as string
     const available = item.availableQuantity > 0
+    const isFavorite = role === "customer" ? (await getFavoriteIds()).includes(item._id) : false
 
     return (
         <div className="container-page section-y">
@@ -115,7 +119,7 @@ export default async function EquipmentDetailsPage({ params }: { params: Promise
                             <div className="mt-6 space-y-3">
                                 {role === "customer" ? (
                                     <>
-                                        {/* booking and favorite buttons come in the next commits */}
+                                        <FavoriteButton equipmentId={item._id} initialFavorite={isFavorite} />
                                     </>
                                 ) : (
                                     <p className="rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
