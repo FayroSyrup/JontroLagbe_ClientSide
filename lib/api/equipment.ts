@@ -2,6 +2,7 @@
 
 import { API_BASE_URL } from "@/lib/config"
 import type { EquipmentRow, Paged } from "@/lib/types/equipment"
+import { authFetch } from "@/lib/core/server"
 
 export type EquipmentQuery = {
     search?: string
@@ -34,4 +35,11 @@ export async function getEquipmentList(query: EquipmentQuery = {}): Promise<Page
         // server is down, show the empty state instead of crashing the page
         return EMPTY
     }
+}
+
+// private, the server checks the token and hides unapproved items from other users
+export async function getEquipmentById(id: string): Promise<EquipmentRow | null> {
+    const res = await authFetch(`${API_BASE_URL}/equipment/${id}`)
+    if (!res.ok) return null
+    return res.json()
 }
