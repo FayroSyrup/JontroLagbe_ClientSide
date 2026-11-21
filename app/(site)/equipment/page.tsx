@@ -6,6 +6,8 @@ import type { EquipmentFilterValues } from "@/lib/types/equipment"
 import { EmptyState } from "@/components/shared/empty-state"
 import { EquipmentCard } from "@/components/shared/equipment-card"
 import { Pagination } from "@/components/shared/pagination"
+import { EquipmentFilters } from "@/components/equipment/equipment-filters"
+
 
 export const metadata: Metadata = { title: "All Equipment" }
 
@@ -44,6 +46,8 @@ export default async function AllEquipmentPage({ searchParams }: { searchParams:
                 <h1 className="section-title mt-2">All Equipment</h1>
                 <p className="section-sub">Find the right equipment, compare prices and book in a few clicks.</p>
             </div>
+
+            <EquipmentFilters key={JSON.stringify(values)} values={values} />
 
             <p className="mt-8 text-sm text-muted-foreground">
                 {result.total} equipment found
