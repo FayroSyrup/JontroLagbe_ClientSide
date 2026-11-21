@@ -1,7 +1,7 @@
 import "server-only"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { auth } from "../../../lib/auth"
+import { auth } from "../auth"
 
 export const getSession = async () => {
     return auth.api.getSession({ headers: await headers() })
