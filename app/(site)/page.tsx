@@ -5,6 +5,8 @@ import { HeroBanner } from "@/components/home/hero-banner"
 import { CategoriesSection } from "@/components/home/categories-section"
 import {WhyChooseUs} from "@/components/home/why-choose-us"
 import { StatsStrip } from "@/components/home/stats-strip"
+import { ReviewsSection } from "@/components/home/reviews-section"
+
 
 export default async function HomePage() {
     // 6 approved items, the server uses a mongodb limit
@@ -19,7 +21,8 @@ export default async function HomePage() {
             <FeaturedSection items={featured.data} isLoggedIn={!!session} />
             <CategoriesSection />
             <WhyChooseUs />
-            <StatsStrip />  
+            <StatsStrip />
+            <ReviewsSection />  
         </>
     )
 }
