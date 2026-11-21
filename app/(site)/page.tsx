@@ -2,6 +2,8 @@ import { getEquipmentList } from "@/lib/api/equipment"
 import { getSession } from "@/lib/core/server"
 import { FeaturedSection } from "@/components/home/featured-section"
 import { HeroBanner } from "@/components/home/hero-banner"
+import { CategoriesSection } from "@/components/home/categories-section"
+
 
 export default async function HomePage() {
     // 6 approved items, the server uses a mongodb limit
@@ -14,6 +16,7 @@ export default async function HomePage() {
         <>
             <HeroBanner />
             <FeaturedSection items={featured.data} isLoggedIn={!!session} />
+            <CategoriesSection />
         </>
     )
 }
