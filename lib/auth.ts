@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth"
+import { jwt } from "better-auth/plugins"
 import { MongoClient } from "mongodb"
 import { mongodbAdapter } from "@better-auth/mongo-adapter"
 
@@ -24,6 +25,10 @@ export const auth = betterAuth({
             address: { type: "string", required: false },
         },
     },
+    session: {
+        // short cache so a role change by the admin shows up quickly
+        cookieCache: { enabled: true, strategy: "jwt", maxAge: 60 },
+    },
     // google users also get the customer role by default
     socialProviders: {
         google: {
@@ -31,5 +36,7 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         },
     },
+    // the jwt plugin creates the /api/auth/jwks route and signs the tokens
+    plugins: [jwt()],
     database: mongodbAdapter(db, { client }),
 })

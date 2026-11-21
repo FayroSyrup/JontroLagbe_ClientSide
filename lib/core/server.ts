@@ -7,13 +7,14 @@ export const getSession = async () => {
     return auth.api.getSession({ headers: await headers() })
 }
 
-// no session means go to login
+// the jwt comes from the better auth jwt plugin, express checks it with the public keys
 export const getToken = async () => {
     const session = await getSession()
-    if (!session || !session.session?.token) {
+    if (!session) {
         redirect("/sign-in")
     }
-    return session.session.token
+    const { token } = await auth.api.getToken({ headers: await headers() })
+    return token
 }
 
 export const authFetch = async (api: string) => {
