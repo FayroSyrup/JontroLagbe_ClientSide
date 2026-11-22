@@ -1,8 +1,11 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
+
 import { API_BASE_URL } from "@/lib/config"
-import type { EquipmentRow, Paged } from "@/lib/types/equipment"
-import { authFetch } from "@/lib/core/server"
+import { authFetch, protectedMutation } from "@/lib/core/server"
+import { toResult } from "@/lib/core/result"
+import type { EquipmentFormData, EquipmentRow, EquipmentStatus, Paged } from "@/lib/types/equipment"
 
 export type EquipmentQuery = {
     search?: string
@@ -42,4 +45,44 @@ export async function getEquipmentById(id: string): Promise<EquipmentRow | null>
     const res = await authFetch(`${API_BASE_URL}/equipment/${id}`)
     if (!res.ok) return null
     return res.json()
+}
+
+const refreshEquipmentPages = () => {
+    revalidatePath("/dashboard", "layout")
+    revalidatePath("/equipment")
+    revalidatePath("/")
+}
+
+export async function getMyEquipment(): Promise<EquipmentRow[]> {
+    const res = await authFetch(`${API_BASE_URL}/equipment/mine`)
+    return res.ok ? res.json() : []
+}
+
+export async function getAllEquipmentAdmin(): Promise<EquipmentRow[]> {
+    const res = await authFetch(`${API_BASE_URL}/admin/equipment`)
+    return res.ok ? res.json() : []
+}
+
+export async function createEquipment(data: EquipmentFormData) {
+    const res = await protectedMutation(`${API_BASE_URL}/equipment`, "POST", data)
+    refreshEquipmentPages()
+    return toResult(res)
+}
+
+export async function updateEquipment(id: string, data: EquipmentFormData) {
+    const res = await protectedMutation(`${API_BASE_URL}/equipment/${id}`, "PUT", data)
+    refreshEquipmentPages()
+    return toResult(res)
+}
+
+export async function deleteEquipment(id: string) {
+    const res = await protectedMutation(`${API_BASE_URL}/equipment/${id}`, "DELETE")
+    refreshEquipmentPages()
+    return toResult(res)
+}
+
+export async function setEquipmentStatus(id: string, status: EquipmentStatus) {
+    const res = await protectedMutation(`${API_BASE_URL}/equipment/${id}/status`, "PATCH", { status })
+    refreshEquipmentPages()
+    return toResult(res)
 }
