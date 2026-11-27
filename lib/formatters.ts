@@ -20,3 +20,10 @@ export const formatRelativeTime = (date: string) => {
     if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`
     return formatDate(date)
 }
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+// "2026-11" becomes "Nov" for charts or "Nov 2026" for tables
+export const formatMonth = (month: string, withYear = false) => {
+    const name = MONTH_NAMES[Number(month.slice(5, 7)) - 1] ?? month
+    return withYear ? `${name} ${month.slice(0, 4)}` : name
+}
